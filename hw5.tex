@@ -1,0 +1,121 @@
+\documentclass[addpoints]{exam}
+\usepackage{url}
+\usepackage{amsmath,amsthm,enumitem, amssymb} 
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{qtree}
+\usepackage[nodayofweek,level]{datetime}
+\usepackage{color}
+\usepackage{csquotes}
+\usepackage{pgf, tikz}
+\usetikzlibrary{arrows, automata}
+\usepackage{algorithm,algpseudocode}
+\usepackage{graphicx}
+\usetikzlibrary{positioning}
+\usetikzlibrary{calc,arrows.meta,positioning}
+
+\tikzset{
+    every node/.style={font=\sffamily\small},
+    main node/.style={thick,circle,draw,font=\sffamily\Large}
+}
+\newtheorem*{claim}{Claim}
+\definecolor{qcolor}{rgb}{0, 0, 0.3}
+\definecolor{acolor}{rgb}{0, 0, 0}
+%\input myfonts
+\qformat{Question \thequestion: \thequestiontitle\dotfill \textbf{[\totalpoints]}}
+\pointname{}
+\bonuspointname{}
+\pointformat{[\bfseries\thepoints]}
+
+\lhead{Gopal Menon (u0772360)}
+\chead{\bf{HW5}}
+\rhead{CS 6150 \today}
+\headrule
+
+\begin{document}
+
+\section*{Collaborators}
+
+Ben Nelson, Corbin Baldwin and I collaborated for this assignment.
+
+\begin{questions}
+
+\titledquestion{Basics of linear programming}
+Consider the feasible set of the following set of inequalities in two variables $x, y$:
+\begin{align*}
+x + y &\ge 1, \\
+x + 2y &\le 4, \\
+y &\le 2.
+\end{align*}
+\begin{parts}
+\part[3] Draw the feasible region on the plane (you may also draw on paper, roughly to scale, and attach a scanned image).
+\part[2] What is the maximum value of $x+4y$ subject to $(x, y)$ being in the feasible region?
+\part[2] Answer the same for $x+y$.
+\part[2] Find a point $(x,y)$ that is the intersection of two of the lines defining the equations above, but is not a corner point of the feasible region.
+\end{parts}
+
+\titledquestion{Paths and spanning trees as linear optimization}
+In class, we saw the following idea to write the shortest path problem as linear optimization over a $\{0,1\}$ (discrete) domain.  Suppose we have an \underline{undirected} graph $G = (V, E)$, and suppose that $w_e$ denotes the weight (or length of edge $e$).  The goal is to find the shortest total length path between $s$ and $t$.   The idea was to choose binary variables $x_{ij}$ that now correspond to {\em directed edges} (going from $i \rightarrow j$), and the idea is that we would set $x_{ij}=1$ if the shortest path from $s$ to $t$ uses the directed edge $(i,j)$.  
+
+\begin{parts}
+\part[4] Formally write down the objective and the set of constraints (discussed roughly in class and in the hint below).  Note that you need to argue that any feasible solution to the constraints you write down yields a valid path in the graph.
+
+[\emph{Hint: } every vertex other than $s, t$ must have precisely one edge coming in and going out.]  
+\part[7] Now consider the minimum spanning tree problem, in which we have an undirected graph with weights on the edges, and the goal is to find the connected subgraph (i.e., one with a path between every pair of vertices in $V$) that minimizes the total weight of the selected edges.
+\end{parts}
+
+\titledquestion{Checking feasibility vs optimization}
+Some of the algorithms for linear programming (e.g. simplex) start off with one of the corner points of the feasible set.  This turns out to be tricky in general. In this problem, we will see that in general, finding one feasible point is as difficult as actually performing the optimization! 
+
+Consider the following linear program (in $n$ variables $x_1, \dots, x_n$, represented by the vector $x$):
+\begin{align*}
+\text{minimize } &c^T x ~~\text{subject to} \\
+a_1^T x &\ge b_1 \\
+a_2^T x &\ge b_2 \\
+&\cdots \\
+a_m^T x &\ge b_m.
+\end{align*}
+\begin{parts}
+\part[6] Suppose you know that the optimum value (i.e. the minimum of $c^T x$ over the feasible set) lies in the interval $[-M, M]$ for some real number $M$ (this is typically possible in practice).  Suppose also that you have an {\bf oracle} that can take any linear program and say whether it is feasible or not.  Prove that using $O(\log (M/\epsilon))$ calls to the oracle, one can determine the optimum value of the LP above up to an error of $\pm \epsilon$, for any given accuracy $\epsilon > 0$.  [\emph{Hint: } can you write a new LP that is feasible only if the LP above has optimum value $\le z$, for some $z$?]
+
+\part[6] Part (a) gave a way to find the optimum {\em value}.  Now suppose we wish to find the optimum solution (i.e., the best $x$).  Suppose we knew that in the optimum solution, $x_i \in [-M, M]$ for all $i$.  Show how to find each $x_i$ to an error $\pm \epsilon$ using $O(n \log (M/\epsilon))$ calls to the oracle.
+\end{parts}
+
+\newcommand{\ba}{\mathbf{a}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\iprod}[1]{\langle #1 \rangle}
+
+\titledquestion{Modified regression as a linear program}[6]
+Regression is one of the common problems in data applications.  We are given $n$ vectors $\ba_1, \ba_2, \dots, \ba_n$ (in say $d$-dimensions), and real numbers $b_1, b_2, \dots, b_n$.  The goal is to find an $x \in \R^d$ such that $\iprod{\ba_i, x} \approx b_i$ for all $i$. In the usual least squares formulation, one tries to find an $x$ so as to minimize $\sum_{i=1}^n | \iprod{\ba_i, x} - b_i|^2$.
+
+Suppose we change the objective a little, and we wish to find an $x$ so as to minimize
+\[ \sum_{i=1}^n | \iprod{\ba_i, x} - b_i|. \]
+(I.e., the objective from earlier, but without the square).  Prove that this optimization can be cast as a linear program of size polynomial in $n, d$.  (You will receive partial credit if you come up with an exponential sized formulation.)
+
+\titledquestion{Starbucks locations}
+Consider the following ``Starbucks location'' problem. We are given the locations of $m$ strip malls, that are possible locations for opening a store.  We are also given the addresses of $n$ customers.  Let $d_{ij}$ be the distance between the $i$'th customer's address and the location of the $j$th strip mall. Let us assume that we are given as input this matrix $d_{ij}$.
+
+Given a radius $R$, the goal is to find the smallest number of stores that need to be opened, so as to guarantee that every customer is at distance $\le R$ to at least one of the opened stores.
+
+Let us consider an optimization formulation that uses binary variables $\{y_j\}_{j = 1}^m$, where $y_j$ indicates if a store is to be opened at location $j$.
+\begin{parts}
+\part[3] Write down the constraints one needs to place on the $y_j$'s, and the objective function to optimize.
+\part[5] Suppose we ``relax'' the constraints $y_j \in \{0, 1\}$ to $0 \le y_j \le 1$, thus obtaining a linear program (that we can solve efficiently).  Give an example (by drawing a picture of locations and addresses in 2D) where the obtained linear program has a strictly smaller optimum value than that of the original problem.
+
+Design an optimization formulation for this problem, possibly using binary variables.  Your formulation should have size polynomial in $n, m$.
+
+\part[4]  Suppose we solve the linear program and find that in the optimal solution, all the variables $y_j$ are either $0$ or are $\ge 0.5$.  Use this $y$ to come up with a feasible way of opening stores such that (a) we satisfy the constraint that every user has an open store at distance $\le R$, and (b) the number of stores opened is at most twice the optimum number.
+\end{parts}
+
+
+\end{questions}
+
+\begin{thebibliography}{9}
+
+\bibitem{matrix} \enquote{Freivalds' Algorithm.} \textit{Wikipedia}, Wikimedia Foundation, 30 Sept. 2018, 
+\url{https://en.wikipedia.org/wiki/Freivalds\%27\_algorithm}.
+
+\end{thebibliography}
+
+\end{document}
