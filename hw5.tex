@@ -129,8 +129,22 @@ Equation \eqref{internal} is the constraint that the number of paths entering an
 
 Due to constraint  \eqref{start1}, a path is guaranteed to start from vertex $s$ and constraint \eqref{internal} ensures that there is an unbroken chain of edges starting from the vertex that $s$ is connected to. Finally constraint \eqref{end2} ensures that this unbroken chain of edges ends at vertex $t$. This unbroken chain of edges from $s$ to $t$ is a path from $s$ to $t$ and minimizing the objective $\sum_{ij}w_{ij}x_{ij}$ ensures that this is the shortest path between the two vertices.
 
-\part 
+\part A minimum spanning can be thought to be comprised of edges selected from the original graph such that the shortest distance between any two distinct nodes is a subset of these selected edges. Similar to the above case of shortest path, we can have the constraints to be
 
+\begin{align}
+\forall  \text{ distinct vertices } i,j \sum_{u \in \Gamma(i)} x_{iu} &=1 \label{start1s}\\
+\sum_{u \in \Gamma(i)} x_{ui} &=0 \label{start2s}\\
+\sum_{u \in \Gamma(j)} x_{ju} &=0 \label{end1s}\\
+\sum_{u \in \Gamma(j)} x_{uj} &=1 \label{end2s}\\
+\forall u \notin \{i,j\} \sum_{v \in \Gamma(u)} x_{vu} &=  \sum_{v \in \Gamma(u)} x_{uv} \label{internals}
+\end{align}
+
+The objective function to be minimized will be
+\begin{align}
+\forall  \text{ distinct vertices } i,j \sum_{uv}w_{uv}x_{uv}  \text{, where } u \text{ and } v \text{ are neighboring vertices}\label{obj}
+\end{align}
+
+Constraints \eqref{start1s} through \eqref{internals} will ensure that there is a path between each distinct pair of nodes $\{i,j\}$ and minimizing the objective \eqref{obj} will ensure that the path between $i$ and $j$ is the shortest one. The set of all edges so selected will form a minimum spanning tree.
 \end{parts}
 
 \titledquestion{Checking feasibility vs optimization}
