@@ -67,7 +67,6 @@ y &\le 2.
 \part[2] Find a point $(x,y)$ that is the intersection of two of the lines defining the equations above, but is not a corner point of the feasible region.
 \end{parts}
 
-
 \begin{parts}
 
 \part The feasible region is shown below in cyan. It is unbounded on the bottom-right.
@@ -106,6 +105,32 @@ In class, we saw the following idea to write the shortest path problem as linear
 
 [\emph{Hint: } every vertex other than $s, t$ must have precisely one edge coming in and going out.]  
 \part[7] Now consider the minimum spanning tree problem, in which we have an undirected graph with weights on the edges, and the goal is to find the connected subgraph (i.e., one with a path between every pair of vertices in $V$) that minimizes the total weight of the selected edges.
+\end{parts}
+
+\begin{parts}
+
+\part For each edge $\{i,j\}$ in the graph, where $i$ and $j$ are vertices, introduce two indicator variables $x_{ij}$ and $x_{ji}$ both $ \in \{0,1\}$ where $x_{ij} = 1$ if the edge $\{i,j\}$ in the direction $i \rightarrow j$ is on the shortest path between $s$ and $t$ and similarly $x_{ji} = 1$ if the edge $\{j,i\}$ in the direction $j \rightarrow i$ is on the shortest path between $s$ and $t$. Let $\Gamma(i)$ denote the set of neighboring vertices of vertex $i$. 
+
+\begin{align}
+\sum_{i \in \Gamma(s)} x_{si} &=1 \label{start1}\\
+\sum_{i \in \Gamma(s)} x_{is} &=0 \label{start2}\\
+\sum_{i \in \Gamma(t)} x_{ti} &=0 \label{end1}\\
+\sum_{i \in \Gamma(t)} x_{it} &=1 \label{end2}
+\end{align}
+
+Equation \eqref{start1} is the constraint that exactly one edge leaving vertex $s$ should be on the shortest path between $s$ and $t$. Equation \eqref{start2} is the constraint that no edge connected to vertex $s$ is on a path entering $s$. Similarly equation \eqref{end2} is the constraint that exactly one edge entering vertex $t$ should be on the shortest path between $s$ and $t$ and equation \eqref{end1} is the constraint that no edge connected to vertex $t$ is on a path leving $t$.
+
+\begin{align}
+\forall i \notin \{s,t\} \sum_{j \in \Gamma(i)} x_{ji} =  \sum_{j \in \Gamma(i)} x_{ij} \label{internal}
+\end{align}
+
+Equation \eqref{internal} is the constraint that the number of paths entering an internal node is equal to the number of paths leaving it. Subject to the above constraints, we need to minimize the length of a path. That is done by minimizing the sum of the edge weights on the path $\sum_{ij}w_{ij}x_{ij}$ where $i$ and $j$ are any two neighboring vertices.
+\\
+
+Due to constraint  \eqref{start1}, a path is guaranteed to start from vertex $s$ and constraint \eqref{internal} ensures that there is an unbroken chain of edges starting from the vertex that $s$ is connected to. Finally constraint \eqref{end2} ensures that this unbroken chain of edges ends at vertex $t$. This unbroken chain of edges from $s$ to $t$ is a path from $s$ to $t$ and minimizing the objective $\sum_{ij}w_{ij}x_{ij}$ ensures that this is the shortest path between the two vertices.
+
+\part 
+
 \end{parts}
 
 \titledquestion{Checking feasibility vs optimization}
