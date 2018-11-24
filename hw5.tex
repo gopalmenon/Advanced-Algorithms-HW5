@@ -173,8 +173,20 @@ Regression is one of the common problems in data applications.  We are given $n$
 
 Suppose we change the objective a little, and we wish to find an $x$ so as to minimize
 \[ \sum_{i=1}^n | \iprod{\ba_i, x} - b_i|. \]
-(I.e., the objective from earlier, but without the square).  Prove that this optimization can be cast as a linear program of size polynomial in $n, d$.  (You will receive partial credit if you come up with an exponential sized formulation.)
+(i.e., the objective from earlier, but without the square).  Prove that this optimization can be cast as a linear program of size polynomial in $n, d$.  (You will receive partial credit if you come up with an exponential sized formulation.)
 
+Let $M$ be the maximum regression error so that for every vector $|\iprod{\ba_i, x} - b_i| \leq M$. So the linear program can be constructed as
+\begin{align*}
+\text{minimize } &M ~~\text{subject to} \\
+M &\geq 0\\
+\iprod{a_1, x} -b_1 &\ge -M \\
+\iprod{a_1, x} -b_1 &\le M \\
+\iprod{a_2, x} -b_2 &\ge -M \\
+\iprod{a_2, x} -b_2 &\le M \\
+&\cdots \\
+\iprod{a_n, x} -b_n &\ge -M \\
+\iprod{a_n, x} -b_n &\le M \\
+\end{align*}
 \titledquestion{Starbucks locations}
 Consider the following ``Starbucks location'' problem. We are given the locations of $m$ strip malls, that are possible locations for opening a store.  We are also given the addresses of $n$ customers.  Let $d_{ij}$ be the distance between the $i$'th customer's address and the location of the $j$th strip mall. Let us assume that we are given as input this matrix $d_{ij}$.
 
@@ -184,8 +196,6 @@ Let us consider an optimization formulation that uses binary variables $\{y_j\}_
 \begin{parts}
 \part[3] Write down the constraints one needs to place on the $y_j$'s, and the objective function to optimize.
 \part[5] Suppose we ``relax'' the constraints $y_j \in \{0, 1\}$ to $0 \le y_j \le 1$, thus obtaining a linear program (that we can solve efficiently).  Give an example (by drawing a picture of locations and addresses in 2D) where the obtained linear program has a strictly smaller optimum value than that of the original problem.
-
-Design an optimization formulation for this problem, possibly using binary variables.  Your formulation should have size polynomial in $n, m$.
 
 \part[4]  Suppose we solve the linear program and find that in the optimal solution, all the variables $y_j$ are either $0$ or are $\ge 0.5$.  Use this $y$ to come up with a feasible way of opening stores such that (a) we satisfy the constraint that every user has an open store at distance $\le R$, and (b) the number of stores opened is at most twice the optimum number.
 \end{parts}
