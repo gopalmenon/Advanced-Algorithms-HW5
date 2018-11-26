@@ -270,18 +270,23 @@ Suppose we change the objective a little, and we wish to find an $x$ so as to mi
 \[ \sum_{i=1}^n | \iprod{\ba_i, x} - b_i|. \]
 (i.e., the objective from earlier, but without the square).  Prove that this optimization can be cast as a linear program of size polynomial in $n, d$.  (You will receive partial credit if you come up with an exponential sized formulation.)
 
-Let $M$ be the maximum regression error so that for every vector $|\iprod{\ba_i, x} - b_i| \leq M$. So the linear program can be constructed as
+Let $R_i = | \iprod{\ba_i, x} - b_i|$ be the error for the $i^{th}$ vector. We can construct the following linear program for the regression with the lowest error
+
 \begin{align*}
-\text{minimize } &M ~~\text{subject to} \\
-M &\geq 0\\
-\iprod{a_1, x} -b_1 &\ge -M \\
-\iprod{a_1, x} -b_1 &\le M \\
-\iprod{a_2, x} -b_2 &\ge -M \\
-\iprod{a_2, x} -b_2 &\le M \\
+\text{minimize } &R_1+R_2 + \ldots + R_n ~\text{subject to} \\
+R_1 &\geq 0\\
+R_2 &\geq 0\\
 &\cdots \\
-\iprod{a_n, x} -b_n &\ge -M \\
-\iprod{a_n, x} -b_n &\le M \\
+R_n &\geq 0\\
+R_1 &\geq -\iprod{a_1, x} +b_1\\
+R_1 &\geq \iprod{a_1, x} -b_1\\
+R_2 &\geq -\iprod{a_2, x} +b_2\\
+R_2 &\geq \iprod{a_2, x} -b_2\\
+&\cdots \\
+R_n &\geq -\iprod{a_n, x} +b_n\\
+R_n &\geq \iprod{a_n, x} -b_n\\
 \end{align*}
+
 \titledquestion{Starbucks locations}
 Consider the following ``Starbucks location'' problem. We are given the locations of $m$ strip malls, that are possible locations for opening a store.  We are also given the addresses of $n$ customers.  Let $d_{ij}$ be the distance between the $i$'th customer's address and the location of the $j$th strip mall. Let us assume that we are given as input this matrix $d_{ij}$.
 
