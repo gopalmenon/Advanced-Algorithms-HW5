@@ -168,6 +168,60 @@ a_m^T x &\ge b_m.
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\iprod}[1]{\langle #1 \rangle}
 
+\begin{parts}
+
+\part Consider the following linear program (in $n$ variables $x_1, \dots, x_n$, represented by the vector $x$):
+\begin{align*}
+\text{minimize } &c^T x ~~\text{subject to} \\
+c^T x &\leq \alpha\\
+a_1^T x &\ge b_1 \\
+a_2^T x &\ge b_2 \\
+&\cdots \\
+a_m^T x &\ge b_m.
+\end{align*}
+
+Shown below is an algorithm for finding out the optimum value of the LP given in the question for any given accuracy $\epsilon > 0$, which is passed in as a parameter.
+\let\oldReturn\Return
+\renewcommand{\Return}{\State\oldReturn}
+
+\begin{minipage}{\linewidth}
+  \begin{algorithm}[H]
+    \caption{Find optimum value of LP}\label{LPOpt}
+    \begin{algorithmic}[1]
+      \Procedure{LP\_Opt}{$\epsilon$}
+      \State $lower\_limit = -M$
+      \State $upper\_limit = M$
+      \State $\alpha = \frac{upper\_limit - lower\_limit}{2}$
+      \State $counter = 0$
+      \While {$counter < \log \left (\frac{M}{\epsilon} \right )$}
+      	\State oracle\_answer = ASK\_ORACLE\_IF\_FEASIBLE($\alpha$)
+	\If {oracle\_answer == true}
+		\State $upper\_limit = \alpha$
+	\Else
+		\State $lower\_limit = \alpha$
+	\EndIf
+	\State $\alpha = \frac{upper\_limit - lower\_limit}{2}$
+      \EndWhile
+      \Return $\left (lower\_limit, upper\_limit \right )$
+      \EndProcedure
+      \Procedure{ASK\_ORACLE\_IF\_FEASIBLE}{$\alpha$}
+      	\State Ask the oracle if LP: $\text{minimize } c^T x ~~\text{subject to } c^T x \leq \alpha, a_1^T x \ge b_1, \ldots a_m^T x \ge b_m$ is feasible
+	\If {oracle says yes}
+		\Return true
+	\Else
+		\Return false
+	\EndIf
+      \EndProcedure
+    \end{algorithmic}
+  \end{algorithm}
+\end{minipage}\\\\
+
+Each iteration of the while loop divides the range into half and asks the oracle if the new LP is feasible. If it is, then the middle of the range becomes the new upper end of the range, else it becomes the new lower end of the range. With each iteration, the range becomes half. So after $\log \left (\frac{M}{\epsilon} \right )$ iterations, the range becomes $\frac{2M}{2^{\log \left (\frac{M}{\epsilon} \right )}} = \frac{2M}{\frac{M}{\epsilon}}=2\epsilon$. So after the iterations, the optimum value of the LP will be within $\pm \epsilon$, for any given accuracy $\epsilon > 0$.
+
+\part 
+
+\end{parts}
+
 \titledquestion{Modified regression as a linear program}[6]
 Regression is one of the common problems in data applications.  We are given $n$ vectors $\ba_1, \ba_2, \dots, \ba_n$ (in say $d$-dimensions), and real numbers $b_1, b_2, \dots, b_n$.  The goal is to find an $x \in \R^d$ such that $\iprod{\ba_i, x} \approx b_i$ for all $i$. In the usual least squares formulation, one tries to find an $x$ so as to minimize $\sum_{i=1}^n | \iprod{\ba_i, x} - b_i|^2$.
 
