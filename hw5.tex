@@ -353,7 +353,15 @@ If one store is opened in each of the two strip malls, corresponding to $R=3$, c
 
 Where $K$ is the matrix for the variables $k_{ij}$ and $Y$ is the vector for the variables $y_j$. In this case $\sum_j y_j = 0.9+0.1 =1$ and so has a smaller optimum.
 
-\part 
+\part For the cases where $y_j=0$, do not open a store at location $j$ and open stores at locations corresponding to when $y_j \geq 0.5$. 
+
+\begin{enumerate}
+
+\item [a] Since constraint \eqref{withinReach} has been satisfied, it means that for all customers, there is at least one store at a distance of $\leq R$.
+
+\item [b] The number of stores to be opened is given by $\sum_j y_j$. Suppose the count of $y_j \geq 0.5$ is $n$. In the worst case, all instances where $y_j \geq 0.5$, the value will be $0.5$. In this case, the optimum number of stores to be opened is $0.5n$. Since a store is opened in all cases where $y_j \geq 0.5$, we will end up opening $n$ stores, which is twice the optimum value of $0.5n$. This means that the number of stores opened is at most twice the optimum number corresponding to  the worst case.
+
+\end{enumerate}
 
 \end{parts}
 
