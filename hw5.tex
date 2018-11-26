@@ -309,7 +309,7 @@ Let us consider an optimization formulation that uses binary variables $\{y_j\}_
 \forall j \text{ } y_j &\in \{0,1\} \label{isOpen}\\
 \sum_j y_j &\geq 1  \label{open1}\\
 \forall i,j \text{ } k_{ij} &\in \{0,1\}  \label{openClose}\\
-\forall i \text{ } \sum_j k_{ij} &= 1  \label{onePerCust}\\
+\forall i \text{ } \sum_j k_{ij} &\geq 1 \text{ and } \forall i \text{ } \sum_j k_{ij} \leq 1 \label{onePerCust}\\
 \forall i \text{ } \sum_j d_{ij} y_j k_{ij} &\leq R  \label{withinReach}
 \end{align}
 
@@ -329,7 +329,29 @@ Let us consider an optimization formulation that uses binary variables $\{y_j\}_
 
 \end{enumerate}
 
-\part 
+\part Consider the following matrix that gives the distances $d_{ij}$ from the $i^{th}$ customer address to the location of the $j^{th}$ strip mall:
+\[
+\begin{bmatrix}
+1	& 5\\
+10	& 3\\
+\end{bmatrix}
+\]
+
+If one store is opened in each of the two strip malls, corresponding to $R=3$, customer $1$ will be located at a distance of $1$ from strip mall location $1$ and customer $2$ will be located at a distance of $3$ from strip mall location $2$. This will be the optimum in the above case where $\sum_j y_j = 1+1 =2$. If we ``relax'' the constraints $y_j \in \{0, 1\}$ to $0 \le y_j \le 1$ and $k_{ij} \in \{0, 1\}$ to $0 \le k_{ij} \le 1$, the following could be a solution to the linear program:
+
+\[ K= 
+\begin{bmatrix}
+0.5	& 0.5\\
+0.3	& 0.7\\
+\end{bmatrix}
+\text{ and } Y=
+\begin{bmatrix}
+0.9\\
+0.1\\
+\end{bmatrix}
+\]
+
+Where $K$ is the matrix for the variables $k_{ij}$ and $Y$ is the vector for the variables $y_j$. In this case $\sum_j y_j = 0.9+0.1 =1$ and so has a smaller optimum.
 
 \part 
 
