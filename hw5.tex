@@ -300,6 +300,41 @@ Let us consider an optimization formulation that uses binary variables $\{y_j\}_
 \part[4]  Suppose we solve the linear program and find that in the optimal solution, all the variables $y_j$ are either $0$ or are $\ge 0.5$.  Use this $y$ to come up with a feasible way of opening stores such that (a) we satisfy the constraint that every user has an open store at distance $\le R$, and (b) the number of stores opened is at most twice the optimum number.
 \end{parts}
 
+\begin{parts}
+
+\part In order to model the requirement of maximum distance to a store from any customer address being $\le R$, we can introduce a binary variable $k_{ij}$ for the $i^{th}$ customer and the $j^{th}$ store. Consider the following linear program
+
+\begin{align}
+\text{minimize } &\sum_j y_j  ~\text{subject to}  \label{minm}\\
+\forall j \text{ } y_j &\in \{0,1\} \label{isOpen}\\
+\sum_j y_j &\geq 1  \label{open1}\\
+\forall i,j \text{ } k_{ij} &\in \{0,1\}  \label{openClose}\\
+\forall i \text{ } \sum_j k_{ij} &= 1  \label{onePerCust}\\
+\forall i \text{ } \sum_j d_{ij} y_j k_{ij} &\leq R  \label{withinReach}
+\end{align}
+
+\eqref{minm} says that we are minimizing the total number of stores. This is subject to the following constraints
+
+\begin{enumerate}
+
+\item \eqref{isOpen} says that the $y_j$ corresponding to a store in strip mall location $j$ should indicate that it be either not opened (corresponding to $0$) or opened (corresponding to $1$).
+
+\item \eqref{open1} says that at least $1$ store should be opened.
+
+\item \eqref{openClose} says that for customer $i$ and strip mall location $j$, the binary variable $k_{ij}$ will be $0$ or $1$. 
+
+\item \eqref{onePerCust} says that for any customer, at most one binary variable $k_{ij}$ will be $1$. This will be used to ensure that for customer $i$, only the nearest store will be considered in \eqref{withinReach}.
+
+\item \eqref{withinReach} enforces the constraint that for customer $i$, the sum of distances to all stores is within $R$. Due to variable $k_{ij}$ described in \eqref{onePerCust}, only one store will be considered per customer.
+
+\end{enumerate}
+
+\part 
+
+\part 
+
+\end{parts}
+
 \end{questions}
 
 \end{document}
