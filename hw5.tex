@@ -129,6 +129,16 @@ Equation \eqref{internal} is the constraint that the number of paths entering an
 
 Due to constraint  \eqref{start1}, a path is guaranteed to start from vertex $s$ and constraint \eqref{internal} ensures that there is an unbroken chain of edges starting from the vertex that $s$ is connected to. Finally constraint \eqref{end2} ensures that this unbroken chain of edges ends at vertex $t$. This unbroken chain of edges from $s$ to $t$ is a path from $s$ to $t$ and minimizing the objective $\sum_{ij}w_{ij}x_{ij}$ ensures that this is the shortest path between the two vertices.
 
+So the linear program is
+\begin{align*}
+\forall \text{ vertices } i, j \text{ minimize } \sum_{ij}w_{ij}x_{ij}& ~~\text{subject to} \\
+\sum_{i \in \Gamma(s)} x_{si} &=1 \\
+\sum_{i \in \Gamma(s)} x_{is} &=0 \\
+\sum_{i \in \Gamma(t)} x_{ti} &=0 \\
+\sum_{i \in \Gamma(t)} x_{it} &=1 \\
+\forall i \notin \{s,t\} \sum_{j \in \Gamma(i)} x_{ji} &=  \sum_{j \in \Gamma(i)} x_{ij} 
+\end{align*}
+
 \part A minimum spanning can be thought to be comprised of edges selected from the original graph such that the shortest distance between any two distinct nodes is a subset of these selected edges. Similar to the above case of shortest path, we can have the constraints to be
 
 \begin{align}
@@ -144,7 +154,7 @@ The objective function to be minimized will be
 \forall  \text{ distinct vertices } i,j \sum_{uv}w_{uv}x_{uv}  \text{, where } u \text{ and } v \text{ are neighboring vertices}\label{obj}
 \end{align}
 
-Constraints \eqref{start1s} through \eqref{internals} will ensure that there is a path between each distinct pair of nodes $\{i,j\}$ and minimizing the objective \eqref{obj} will ensure that the path between $i$ and $j$ is the shortest one. The set of all edges so selected will form a minimum spanning tree.
+Constraints \eqref{start1s} through \eqref{internals} will ensure that there is a path between each distinct pair of nodes $\{i,j\}$ and minimizing the objective \eqref{obj} will ensure that the path between $i$ and $j$ is the shortest one. The set of all edges so selected will form a minimum spanning tree since the path between any two distinct nodes is the shortest.
 \end{parts}
 
 \titledquestion{Checking feasibility vs optimization}
