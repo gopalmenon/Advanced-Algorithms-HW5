@@ -333,7 +333,7 @@ Let us consider an optimization formulation that uses binary variables $\{y_j\}_
 
 \item \eqref{openClose} says that for customer $i$ and strip mall location $j$, the binary variable $k_{ij}$ will be $0$ or $1$. 
 
-\item \eqref{onePerCust} says that for any customer, at most one binary variable $k_{ij}$ will be $1$. This will be used to ensure that for customer $i$, only the nearest store will be considered in \eqref{withinReach}.
+\item \eqref{onePerCust} says that for any customer $i$, exactly one binary variable $k_{ij}$ will be $1$. This will be used to ensure that for customer $i$, only the nearest store will be considered in \eqref{withinReach}.
 
 \item \eqref{withinReach} enforces the constraint that for customer $i$, the sum of distances to all stores is within $R$. Due to variable $k_{ij}$ described in \eqref{onePerCust}, only one store will be considered per customer.
 
@@ -367,9 +367,9 @@ Where $K$ is the matrix for the variables $k_{ij}$ and $Y$ is the vector for the
 
 \begin{enumerate}
 
-\item [a] Since constraint \eqref{withinReach} has been satisfied, it means that for all customers, there is at least one store at a distance of $\leq R$.
+\item [a.] Since constraint \eqref{withinReach} has been satisfied, it means that for all customers, there is at least one store at a distance of $\leq R$.
 
-\item [b] The number of stores to be opened is given by $\sum_j y_j$. Suppose the count of $y_j \geq 0.5$ is $n$. In the worst case, all instances where $y_j \geq 0.5$, the value will be $0.5$. In this case, the optimum number of stores to be opened is $0.5n$. Since a store is opened in all cases where $y_j \geq 0.5$, we will end up opening $n$ stores, which is twice the optimum value of $0.5n$. This means that the number of stores opened is at most twice the optimum number corresponding to  the worst case.
+\item [b.] The number of stores to be opened is given by $\sum_j y_j$. Suppose the count of $y_j \geq 0.5$ is $n$. In the worst case, all instances where $y_j \geq 0.5$, the value will be $0.5$. In this case, the optimum number of stores to be opened is $0.5n$. Since a store is opened in all cases where $y_j \geq 0.5$, we will end up opening $n$ stores, which is twice the optimum value of $0.5n$. This means that the number of stores opened is at most twice the optimum number corresponding to  the worst case.
 
 \end{enumerate}
 
